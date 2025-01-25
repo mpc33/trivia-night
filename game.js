@@ -438,6 +438,9 @@ function updateSettingsPanel() {
 
 // Save Settings
 function saveSettings() {
+    // Temporarily remove keyboard event listener
+    document.removeEventListener('keydown', handleKeyPress);
+
     const team1NameEdit = document.getElementById('team1NameEdit');
     const team2NameEdit = document.getElementById('team2NameEdit');
     const team1ScoreEdit = document.getElementById('team1ScoreEdit');
@@ -486,6 +489,11 @@ function saveSettings() {
         // Close settings panel
         togglePanel('settings');
     }
+
+    // Re-add keyboard event listener after a short delay
+    setTimeout(() => {
+        document.addEventListener('keydown', handleKeyPress);
+    }, 100);
 }
 
 // Handle Buzzer Press
@@ -689,6 +697,16 @@ function nextQuestion() {
         elements.timer.style.color = 'var(--secondary-color)';
         elements.timer.textContent = '0';
         gameState.timeRemaining = 0;
+
+        // Reset to 1v1 round if currently in Team round
+        if (gameState.currentRound === 'Team') {
+            gameState.currentRound = '1v1';
+            // Update round indicator text
+            const roundIndicator = document.querySelector('.round-indicator');
+            if (roundIndicator) {
+                roundIndicator.textContent = '1v1';
+            }
+        }
         
         elements.activeBuzzer.className = 'active-buzzer-display';
         loadNextQuestion();
