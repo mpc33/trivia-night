@@ -30,9 +30,9 @@ const questionBank = {
             mediaSource: "images/masterchief.png"
         },
         {
-            category: "Geography",
-            question: "What is the capital city of Honduras?",
-            answer: "Tegucigalpa"
+            category: "Birthday Girl",
+            question: "What is the mascot of Livette's Elementary School?",
+            answer: "Tiger"
         },
         {
             category: "Music",
@@ -69,9 +69,9 @@ const questionBank = {
             answer: "Brian"
         },
         {
-            category: "History & Science",
-            question: "What is the name of the traditional drink shared in Uruguay and Argentina, often consumed from a hollow gourd with a metal straw?",
-            answer: "Mate"
+            category: "Birthday Girl",
+            question: "What is Livette's Chinese Zodiac?",
+            answer: "Ox"
         },
         {
             category: "Math",
@@ -118,14 +118,14 @@ const questionBank = {
             answer: "Shakira"
         },
         {
-            category: "Personal",
+            category: "Birthday Girl",
             question: "What hospital was Livette born in?",
             answer: "Shady Grove"
         },
         {
-            category: "Personal",
-            question: "What is Livette's Chinese Zodiac?",
-            answer: "Ox"
+            category: "Geography",
+            question: "What is the capital city of Honduras?",
+            answer: "Tegucigalpa"
         },
         {
             category: "Pop Culture & TV Shows",
@@ -133,9 +133,9 @@ const questionBank = {
             answer: "Dunder Mifflin"
         },
         {
-            category: "Personal",
-            question: "What is the mascot of Livette's Elementary School?",
-            answer: "Tiger"
+            category: "History & Science",
+            question: "What is the name of the traditional drink shared in Uruguay and Argentina, often consumed from a hollow gourd with a metal straw?",
+            answer: "Mate"
         }
     ],
     
