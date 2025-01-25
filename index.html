@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Night</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <h1>Trivia Night</h1>
+            <div class="team-setup">
+                <div class="team-input">
+                    <label for="team1Name">Team 1 Name:</label>
+                    <input type="text" id="team1Name" placeholder="Enter Team 1 Name" value="Team 1">
+                    <div class="team-color-select">
+                        <label>Select Team Color:</label>
+                        <div class="color-options" id="team1Colors">
+                            <div class="color-option teal" data-color="teal"></div>
+                            <div class="color-option purple" data-color="purple"></div>
+                            <div class="color-option coral" data-color="coral"></div>
+                            <div class="color-option blue" data-color="blue"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-input">
+                    <label for="team2Name">Team 2 Name:</label>
+                    <input type="text" id="team2Name" placeholder="Enter Team 2 Name" value="Team 2">
+                    <div class="team-color-select">
+                        <label>Select Team Color:</label>
+                        <div class="color-options" id="team2Colors">
+                            <div class="color-option teal" data-color="teal"></div>
+                            <div class="color-option purple" data-color="purple"></div>
+                            <div class="color-option coral" data-color="coral"></div>
+                            <div class="color-option blue" data-color="blue"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="startGameBtn" class="start-btn">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Main Game Screen (Initially Hidden) -->
+    <main class="game-container" id="gameScreen" style="display: none;">
+        <!-- Game Info Bar -->
+        <header class="game-info-bar">
+            <div class="team-score" id="team1Score">
+                <span id="team1DisplayName">Team 1</span>
+                <span class="score">0</span>
+            </div>
+            <div class="game-status">
+                <span id="questionCounter">Question: 1/25</span>
+                <button id="switchRound" class="icon-button compact" disabled title="Switch Round Mode">
+                    Round: <span class="round-indicator">1v1</span>
+                </button>
+            </div>
+            <div class="team-score" id="team2Score">
+                <span id="team2DisplayName">Team 2</span>
+                <span class="score">0</span>
+            </div>
+        </header>
+
+        <!-- Add the settings and history toggles -->
+        <div class="control-toggles">
+            <button id="settingsToggle" class="settings-toggle" aria-label="Settings">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                </svg>
+            </button>
+            <button id="historyToggle" class="history-toggle" aria-label="Points History">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel">
+            <div class="settings-header">
+                <h3>Game Settings</h3>
+                <button class="close-settings" onclick="toggleSettings()">×</button>
+            </div>
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h4>Team Management</h4>
+                    <div class="team-settings">
+                        <div class="team-setting-group">
+                            <h5>Team 1</h5>
+                            <div class="setting-row">
+                                <label>Name:</label>
+                                <input type="text" id="team1NameEdit" class="team-name-edit">
+                            </div>
+                            <div class="setting-row">
+                                <label>Score:</label>
+                                <input type="number" id="team1ScoreEdit" class="team-score-edit">
+                            </div>
+                        </div>
+                        <div class="team-setting-group">
+                            <h5>Team 2</h5>
+                            <div class="setting-row">
+                                <label>Name:</label>
+                                <input type="text" id="team2NameEdit" class="team-name-edit">
+                            </div>
+                            <div class="setting-row">
+                                <label>Score:</label>
+                                <input type="number" id="team2ScoreEdit" class="team-score-edit">
+                            </div>
+                        </div>
+                    </div>
+                    <button id="saveTeamSettings" class="save-settings">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Points History Panel -->
+        <div id="historyPanel" class="history-panel">
+            <div class="settings-header">
+                <h3>Points History</h3>
+                <button class="close-settings" onclick="toggleHistory()">×</button>
+            </div>
+            <div class="settings-content">
+                <div class="points-history-container">
+                    <div class="team-history">
+                        <h5 id="team1HistoryTitle">Team 1 History</h5>
+                        <div id="team1History" class="history-list"></div>
+                    </div>
+                    <div class="team-history">
+                        <h5 id="team2HistoryTitle">Team 2 History</h5>
+                        <div id="team2History" class="history-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer Display -->
+        <section class="timer-container">
+            <div class="active-buzzer-display" id="activeBuzzer"></div>
+            <div class="timer" id="gameTimer">
+                <span class="time">0</span>
+                <span class="unit">seconds</span>
+            </div>
+            <div class="countdown-indicator" id="countdownIndicator" style="display: none;">
+                <div class="countdown-light" id="redLight"></div>
+                <div class="countdown-light" id="yellowLight"></div>
+                <div class="countdown-light" id="greenLight"></div>
+            </div>
+        </section>
+
+        <!-- Question Display -->
+        <section class="question-container">
+            <div class="question-box" id="questionDisplay">
+                <p class="category" id="questionCategory"></p>
+                <p class="question" id="questionText">Waiting for game to start...</p>
+                <p class="answer" id="answerText" style="display: none;"></p>
+            </div>
+        </section>
+
+        <!-- Buzzer Section -->
+        <section class="buzzer-container">
+            <button class="buzzer team1-buzzer" id="team1Buzzer" disabled>
+                Team 1 Buzzer (Q)
+            </button>
+            <button class="buzzer team2-buzzer" id="team2Buzzer" disabled>
+                Team 2 Buzzer (P)
+            </button>
+        </section>
+
+        <!-- Host Controls -->
+        <section class="host-controls">
+            <div class="control-panel">
+                <button id="nextQuestion" disabled>Next Question</button>
+                <button id="showAnswer" disabled>Show Answer</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scoring Popup (Initially Hidden) -->
+    <div class="scoring-popup" id="scoringPopup" style="display: none;">
+        <div class="scoring-content">
+            <h2>Answer</h2>
+            <p class="popup-answer" id="popupAnswer"></p>
+            <div class="team-points">
+                <div class="team-point-control">
+                    <h3 id="popupTeam1Name">Team 1</h3>
+                    <div class="point-controls">
+                        <div class="quick-points">
+                            <button class="point-btn quick" data-team="team1" data-points="50">+50</button>
+                            <button class="point-btn quick" data-team="team1" data-points="100">+100</button>
+                        </div>
+                        <div class="custom-points">
+                            <input type="number" id="team1CustomPoints" placeholder="Enter custom points">
+                            <button class="point-btn add" data-team="team1" id="team1AddBtn">Add Points</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-point-control">
+                    <h3 id="popupTeam2Name">Team 2</h3>
+                    <div class="point-controls">
+                        <div class="quick-points">
+                            <button class="point-btn quick" data-team="team2" data-points="50">+50</button>
+                            <button class="point-btn quick" data-team="team2" data-points="100">+100</button>
+                        </div>
+                        <div class="custom-points">
+                            <input type="number" id="team2CustomPoints" placeholder="Enter custom points">
+                            <button class="point-btn add" data-team="team2" id="team2AddBtn">Add Points</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="closeScoring" class="close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Add flash elements for buzzer effects -->
+    <div class="buzzer-flash" id="team1Flash"></div>
+    <div class="buzzer-flash" id="team2Flash"></div>
+
+    <script src="questions.js"></script>
+    <script src="game.js"></script>
+</body>
+</html> 

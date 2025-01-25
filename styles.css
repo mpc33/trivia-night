@@ -1,0 +1,1052 @@
+:root {
+    --primary-color: #1a1b35;    /* Dark navy background */
+    --secondary-color: #FFD23F;  /* Bright yellow - use sparingly */
+    --text-color: #FFFFFF;       /* White */
+    --dim-text: rgba(255, 255, 255, 0.7); /* Dimmed white */
+    --overlay-bg: rgba(255, 255, 255, 0.1); /* Subtle white overlay */
+    --border-color: rgba(255, 255, 255, 0.2); /* Subtle border */
+    
+    /* Team Colors */
+    --team-teal: #4CD6B4;     /* Mint/Teal */
+    --team-purple: #9B6DFF;   /* Soft Purple */
+    --team-coral: #FF7E67;    /* Coral */
+    --team-blue: #5BC0EB;     /* Sky Blue */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.game-container.team-active {
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
+}
+
+.game-container.team-active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background-color: currentColor;
+    animation: glowPulse 2s infinite;
+    opacity: 0.8;
+    border-radius: 0 0 4px 4px;
+}
+
+/* Game Info Bar */
+.game-info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.game-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--dim-text);
+    font-size: 1rem;
+}
+
+.team-score {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.2rem;
+}
+
+.team-score span:first-child {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.team-score .score {
+    font-weight: bold;
+}
+
+/* Timer Styles */
+.timer {
+    display: inline-block;
+    padding: 1rem 2rem;
+    color: var(--secondary-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* Question Display */
+.question-box {
+    background-color: var(--overlay-bg);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.question-box .category {
+    color: var(--dim-text);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.question-box .question {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+/* Buzzer Styles */
+.buzzer {
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--text-color);
+    transition: all 0.2s ease;
+}
+
+.buzzer:not(:disabled):hover {
+    background-color: var(--overlay-bg);
+    transform: scale(1.05);
+}
+
+.buzzer:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Host Controls */
+.host-controls {
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+    margin-top: 2rem;
+}
+
+.control-panel button {
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-panel button:hover:not(:disabled) {
+    background-color: var(--overlay-bg);
+}
+
+.control-panel button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Scoring Popup */
+.scoring-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 27, 53, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    backdrop-filter: blur(8px);
+}
+
+.scoring-content {
+    background-color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 800px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.scoring-content h2 {
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+.popup-answer {
+    color: var(--text-color);
+    font-size: 1.4rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    text-align: center;
+    background-color: var(--overlay-bg);
+    border-radius: 8px;
+    line-height: 1.6;
+}
+
+.team-points {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.team-point-control {
+    background-color: var(--overlay-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.team-point-control:hover {
+    transform: translateY(-2px);
+    border-color: var(--secondary-color);
+}
+
+.team-point-control h3 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.point-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.quick-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.custom-points {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.custom-points input {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.8rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.custom-points input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.point-btn {
+    background-color: var(--overlay-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.point-btn.quick {
+    color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    font-size: 1.1rem;
+}
+
+.point-btn.add {
+    color: var(--team-teal);
+    border-color: var(--team-teal);
+    width: 100%;
+}
+
+.point-btn:hover {
+    transform: translateY(-2px);
+}
+
+.point-btn.quick:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+.point-btn.add:hover {
+    background-color: var(--team-teal);
+    color: var(--primary-color);
+}
+
+.close-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.close-btn:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .team-points {
+        grid-template-columns: 1fr;
+    }
+    
+    .scoring-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    
+    .popup-answer {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+}
+
+/* Remove old header and score container styles */
+.game-header, .score-container {
+    display: none;
+}
+
+/* Timer and Buzzer Display Container */
+.timer-container {
+    position: relative;
+    text-align: center;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Question Display */
+.question-container {
+    margin-bottom: 2rem;
+}
+
+/* Buzzer Styles */
+.buzzer-container {
+    display: none; /* Hide the physical buzzer buttons */
+}
+
+/* Active Buzzer Display */
+.active-buzzer-display {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    background-color: var(--overlay-bg);
+    border: 2px solid currentColor;
+    color: currentColor;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.active-buzzer-display.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Team-specific buzzer colors */
+.active-buzzer-display.teal { color: var(--team-teal); }
+.active-buzzer-display.purple { color: var(--team-purple); }
+.active-buzzer-display.coral { color: var(--team-coral); }
+.active-buzzer-display.blue { color: var(--team-blue); }
+
+/* Animations */
+@keyframes buzz {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.buzzer.active {
+    animation: buzz 0.3s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 1rem;
+    }
+
+    .buzzer-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .control-panel {
+        flex-direction: column;
+    }
+
+    .team-score {
+        min-width: 150px;
+    }
+}
+
+/* Splash Screen Styles */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.splash-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    border: 2px solid var(--primary-color);
+}
+
+.splash-content h1 {
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.team-setup {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.team-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.team-input label {
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.team-input input {
+    padding: 0.8rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    background-color: var(--overlay-bg);
+    color: var(--text-color);
+}
+
+.team-input input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.start-btn {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+    border: 2px solid var(--primary-color);
+}
+
+.start-btn:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+/* Team Color Selection */
+.team-color-select {
+    margin-top: 1rem;
+}
+
+.color-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.color-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-option:hover {
+    transform: scale(1.1);
+}
+
+.color-option.selected {
+    border-color: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+.color-option.teal { background-color: var(--team-teal); }
+.color-option.purple { background-color: var(--team-purple); }
+.color-option.coral { background-color: var(--team-coral); }
+.color-option.blue { background-color: var(--team-blue); }
+
+/* Team score colors */
+.team-score.teal .score { color: var(--team-teal); }
+.team-score.purple .score { color: var(--team-purple); }
+.team-score.coral .score { color: var(--team-coral); }
+.team-score.blue .score { color: var(--team-blue); }
+
+/* Team-specific active states */
+.game-container.teal-active {
+    color: var(--team-teal);
+}
+
+.game-container.purple-active {
+    color: var(--team-purple);
+}
+
+.game-container.coral-active {
+    color: var(--team-coral);
+}
+
+.game-container.blue-active {
+    color: var(--team-blue);
+}
+
+@keyframes glowPulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* Control Toggles Container */
+.control-toggles {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+}
+
+/* Settings and History Toggle Buttons */
+.settings-toggle,
+.history-toggle {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    background-color: var(--overlay-bg);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 8px;
+}
+
+.settings-toggle:hover,
+.history-toggle:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.settings-toggle svg,
+.history-toggle svg {
+    fill: var(--text-color);
+    transition: all 0.3s ease;
+    width: 18px;
+    height: 18px;
+}
+
+.settings-toggle:hover svg,
+.history-toggle:hover svg {
+    fill: var(--primary-color);
+    transform: scale(1.1);
+}
+
+/* Settings Panel */
+.settings-panel,
+.history-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background-color: var(--primary-color);
+    border-left: 1px solid var(--border-color);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    z-index: 99;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+
+.settings-panel.visible,
+.history-panel.visible {
+    right: 0;
+}
+
+/* Make panels responsive */
+@media (max-width: 768px) {
+    .settings-panel,
+    .history-panel {
+        width: 100%;
+        right: -100%;
+    }
+}
+
+/* Points History */
+.points-history-container {
+    padding: 1.5rem;
+}
+
+.team-history {
+    margin-bottom: 2rem;
+}
+
+.team-history h4 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Points History Entry */
+.history-entry {
+    background-color: var(--overlay-bg);
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+    overflow: hidden;
+}
+
+.history-entry:hover {
+    transform: translateX(5px);
+}
+
+.history-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+}
+
+.history-entry .points {
+    font-weight: bold;
+    font-size: 1.1rem;
+    min-width: 60px;
+}
+
+.history-entry.positive .points {
+    color: var(--team-teal);
+}
+
+.history-entry.negative .points {
+    color: var(--team-coral);
+}
+
+.history-entry .details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.category-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toggle-question {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--dim-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.toggle-question:hover {
+    color: var(--secondary-color);
+}
+
+.toggle-question svg {
+    fill: currentColor;
+}
+
+.question-details {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.question-text {
+    margin-bottom: 0.5rem;
+    color: var(--dim-text);
+}
+
+.answer-text {
+    color: var(--secondary-color);
+    font-style: italic;
+}
+
+.history-entry .time {
+    font-size: 0.8rem;
+    color: var(--dim-text);
+}
+
+/* Team name colors */
+.team-input input.teal { color: var(--team-teal); }
+.team-input input.purple { color: var(--team-purple); }
+.team-input input.coral { color: var(--team-coral); }
+.team-input input.blue { color: var(--team-blue); }
+
+/* Team display name colors */
+.teal { color: var(--team-teal); }
+.purple { color: var(--team-purple); }
+.coral { color: var(--team-coral); }
+.blue { color: var(--team-blue); }
+
+/* Update team score display to keep score color but name matches team color */
+.team-score span:first-child {
+    font-weight: normal;
+}
+
+.team-score .score {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+/* Make team names bolder without shadow */
+#team1DisplayName, #team2DisplayName {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+/* Remove old team score color overrides */
+.team-score.teal .score,
+.team-score.purple .score,
+.team-score.coral .score,
+.team-score.blue .score {
+    color: inherit;
+}
+
+/* Settings Content */
+.settings-content {
+    padding: 1.5rem;
+}
+
+.settings-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.settings-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.settings-section h4 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+.team-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.team-setting-group {
+    background-color: var(--overlay-bg);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.team-setting-group h5 {
+    color: var(--dim-text);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.setting-row:last-child {
+    margin-bottom: 0;
+}
+
+.setting-row label {
+    min-width: 60px;
+    color: var(--text-color);
+}
+
+.team-name-edit,
+.team-score-edit {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    color: var(--text-color);
+    font-size: 1rem;
+}
+
+.team-name-edit:focus,
+.team-score-edit:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.save-settings {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.save-settings:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* Update points history section */
+.points-history-container {
+    margin-top: 1rem;
+}
+
+.team-history h5 {
+    color: var(--dim-text);
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
+}
+
+/* Icon Button Styles */
+.icon-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.icon-button svg {
+    fill: currentColor;
+    width: 24px;
+    height: 24px;
+}
+
+.icon-button:hover:not(:disabled) {
+    background-color: var(--overlay-bg);
+    transform: translateY(-1px);
+}
+
+.icon-button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.round-indicator {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 1px 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: var(--text-color);
+}
+
+/* Update control panel spacing */
+.control-panel {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Compact Icon Button */
+.icon-button.compact {
+    padding: 0.4rem 0.8rem;
+    background-color: var(--overlay-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--dim-text);
+}
+
+.icon-button.compact svg {
+    width: 18px;
+    height: 18px;
+}
+
+.icon-button.compact:hover:not(:disabled) {
+    background-color: var(--overlay-bg);
+    transform: translateY(-1px);
+}
+
+.icon-button.compact:hover:not(:disabled) .round-indicator {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Countdown Indicator */
+.countdown-indicator {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.countdown-light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--dim-text);
+    transition: background-color 0.3s ease;
+}
+
+.countdown-light.red { background-color: #ff4444; }
+.countdown-light.yellow { background-color: #ffbb33; }
+.countdown-light.green { background-color: #00C851; }
+
+@keyframes countdownPulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.countdown-light.active {
+    animation: countdownPulse 0.5s ease-in-out;
+}
+
+/* Question Media Styles */
+.question-media {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.question-media img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.question-media audio {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Custom audio player styling */
+.question-media audio::-webkit-media-controls-panel {
+    background-color: var(--overlay-bg);
+    border-radius: 8px;
+}
+
+.question-media audio::-webkit-media-controls-current-time-display,
+.question-media audio::-webkit-media-controls-time-remaining-display {
+    color: var(--text-color);
+}
+
+.question-media audio::-webkit-media-controls-play-button,
+.question-media audio::-webkit-media-controls-mute-button {
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    color: var(--primary-color);
+} 
