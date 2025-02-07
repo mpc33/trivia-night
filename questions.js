@@ -36,8 +36,8 @@ const questionBank = {
         },
         {
             category: "Sports",
-            question: "Which tennis player holds the record for most Grand Slam singles titles (23) in the Open Era?",
-            answer: "Serena Williams"
+            question: "Which country won the first-ever FIFA Women’s World Cup in 1991?",
+            answer: "United States"
         },
         {
             category: "History & Science",
@@ -46,18 +46,18 @@ const questionBank = {
         },
         {
             category: "Geography",
-            question: "What is the largest country by area in Africa?",
-            answer: "Algeria"
+            question: "Which U.S. state is nicknamed 'The Last Frontier'?",
+            answer: "Alaska"
         },
         {
             category: "Pop Culture & TV Shows",
-            question: "What is the name of the coffee shop in Friends?",
-            answer: "Central Perk"
+            question: "Which TV series features a character named Eleven with psychokinetic abilities?",
+            answer: "Stranger Things"
         },
         {
             category: "Literature & Art",
-            question: "Which artist painted the ceiling of the Sistine Chapel?",
-            answer: "Michelangelo"
+            question: "Which artist is known for *The Persistence of Memory* (melting clocks)?",
+            answer: "Salvador Dalí"
         },
         {
             category: "Music",
