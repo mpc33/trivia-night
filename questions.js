@@ -7,7 +7,7 @@ const questionBank = {
         },
         {
             category: "Pop Culture & TV Shows",
-            question: "In 'The Office (US)', what is the name of Dwight Schrute’s beet farm?",
+            question: "In The Office (US), what is the name of Dwight Schrute’s beet farm?",
             answer: "Schrute Farms"
         },
         {
@@ -24,14 +24,14 @@ const questionBank = {
         },
         {
             category: "Pop Culture & TV Shows",
-            question: "Which TV series features a character named 'Homelander' as the leader of a corrupt superhero team?",
+            question: "Which TV series features a character named Homelander as the leader of a corrupt superhero team?",
             answer: "The Boys",
             mediaType: "image",
             mediaSource: "images/homelander.png"
         },
         {
             category: "Literature & Art",
-            question: "Who wrote the novel '1984'?",
+            question: "Who wrote the novel 1984?",
             answer: "George Orwell"
         },
         {
@@ -46,7 +46,7 @@ const questionBank = {
         },
         {
             category: "Geography",
-            question: "Which U.S. state is nicknamed 'The Last Frontier'?",
+            question: "Which U.S. state is nicknamed The Last Frontier?",
             answer: "Alaska"
         },
         {
@@ -68,8 +68,8 @@ const questionBank = {
         },
         {
             category: "History & Science",
-            question: "Who was the first woman to travel to space?",
-            answer: "Valentina Tereshkova"
+            question: "Which war is known as the War to End All Wars?",
+            answer: "World War I"
         },
         {
             category: "Math",
@@ -78,25 +78,23 @@ const questionBank = {
         },
         {
             category: "Sports",
-            question: "Which soccer player is shown in this image?",
-            answer: "Lionel Messi",
-            mediaType: "image",
-            mediaSource: "images/messi.png"
+            question: "Which sport uses terms like birdie, eagle, and albatross?",
+            answer: "Golf"
         },
         {
             category: "Literature & Art",
-            question: "What is the name of the fictional town where Shakespeare's 'Romeo and Juliet' is set?",
+            question: "What is the name of the fictional town where Shakespeares Romeo and Juliet is set?",
             answer: "Verona"
         },
         {
             category: "Geography",
-            question: "What is the capital of Brazil?",
-            answer: "Brasília"
+            question: "What is the name of the strait that separates Europe and Africa?",
+            answer: "Strait of Gibraltar"
         },
         {
-            category: "Pop Culture & TV Shows",
-            question: "Which animated adult sitcom features the Smith family?",
-            answer: "American Dad"
+            category: "Sports",
+            question: "In cricket, what term describes a bowler taking three wickets in consecutive deliveries?",
+            answer: "Hat-Trick"
         },
         {
             category: "History & Science",
@@ -105,7 +103,7 @@ const questionBank = {
         },
         {
             category: "Literature & Art",
-            question: "Who wrote the epic poem 'The Odyssey'?",
+            question: "Who wrote the epic poem The Odyssey?",
             answer: "Homer"
         },
         {
@@ -115,27 +113,27 @@ const questionBank = {
         },
         {
             category: "History & Science",
-            question: "What year did the Berlin Wall fall?",
-            answer: "1989"
+            question: "Which scientist proposed the three laws of motion?",
+            answer: "Isaac Newton"
         },
         {
             category: "Geography",
-            question: "Which country is known as the 'Land of the Rising Sun'?",
+            question: "Which country is known as the Land of the Rising Sun?",
             answer: "Japan"
         },
         {
             category: "Pop Culture & TV Shows",
-            question: "What is the name of the fictional continent where 'Game of Thrones' takes place?",
+            question: "What is the name of the fictional continent where Game of Thrones takes place?",
             answer: "Westeros"
         },
         {
             category: "Literature & Art",
-            question: "Which novel begins with the line, 'It was the best of times, it was the worst of times'?",
-            answer: "A Tale of Two Cities"
+            question: "Who authored *Frankenstein* at age 18?",
+            answer: "Mary Shelley"
         },
         {
             category: "History & Science",
-            question: "What is the name of the first artificial satellite launched into space?",
+            question: "What is the name of the first satellite launched into space?",
             answer: "Sputnik 1"
         },
         {
@@ -149,14 +147,14 @@ const questionBank = {
             answer: "France"
         },
         {
-            category: "Literature & Art",
-            question: "Who wrote the play 'A Streetcar Named Desire'?",
-            answer: "Tennessee Williams"
+            category: "Food & Drink",
+            question: "What is the national dish of Spain?",
+            answer: "Paella"
         },
         {
-            category: "History & Science",
-            question: "What is the name of the first human to orbit the Earth?",
-            answer: "Yuri Gagarin"
+            category: "Movies",
+            question: "Which director is known for films like *Inception* and *The Dark Knight Trilogy*?",
+            answer: "Christopher Nolan"
         }
     ],
     
