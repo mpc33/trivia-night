@@ -7,15 +7,15 @@ const questionBank = {
         },
         {
             category: "Pop Culture & TV Shows",
-            question: "Which Netflix series features kids battling supernatural forces in a small town?",
-            answer: "Stranger Things"
+            question: "In 'The Office (US)', what is the name of Dwight Schrute’s beet farm?",
+            answer: "Schrute Farms"
         },
         {
             category: "Music",
             question: "Who is the artist of this song?",
-            answer: "Billie Eilish",
+            answer: "Kanye West",
             mediaType: "audio",
-            mediaSource: "sounds/bad-guy.mp3"
+            mediaSource: "sounds/heartless.mp3"
         },
         {
             category: "History & Science",
@@ -24,10 +24,10 @@ const questionBank = {
         },
         {
             category: "Pop Culture & TV Shows",
-            question: "Which TV series features this meth-cooking chemistry teacher?",
-            answer: "Breaking Bad",
+            question: "Which TV series features a character named 'Homelander' as the leader of a corrupt superhero team?",
+            answer: "The Boys",
             mediaType: "image",
-            mediaSource: "images/walter-white.png"
+            mediaSource: "images/homelander.png"
         },
         {
             category: "Literature & Art",
