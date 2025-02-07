@@ -2,7 +2,7 @@
 const gameState = {
     currentRound: '1v1',
     currentQuestion: 1,
-    totalQuestions: 25,
+    totalQuestions: 30,
     scores: {
         team1: 0,
         team2: 0
