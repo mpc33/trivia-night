@@ -2,7 +2,7 @@
 const gameState = {
     currentRound: '1v1',
     currentQuestion: 1,
-    totalQuestions: 30,
+    totalQuestions: 33,
     scores: {
         team1: 0,
         team2: 0
@@ -30,7 +30,8 @@ const gameState = {
     timesUpSound: new Audio('sounds/timesupsound.mp3'),  // Add sound to game state
     timerPaused: false,  // Track if timer is paused
     savedTimeRemaining: 0,  // Store time when paused
-    currentAudio: null  // Track current audio element
+    currentAudio: null,  // Track current audio element
+    nextQuestionData: null  // Track the next question for later use
 };
 
 // DOM Elements
@@ -79,7 +80,8 @@ const elements = {
     countdownIndicator: document.getElementById('countdownIndicator'),
     redLight: document.getElementById('redLight'),
     yellowLight: document.getElementById('yellowLight'),
-    greenLight: document.getElementById('greenLight')
+    greenLight: document.getElementById('greenLight'),
+    nextCategory: document.getElementById('nextCategory')
 };
 
 // Key Mappings for Buzzers
@@ -285,6 +287,17 @@ function showAnswerAndScoring() {
     elements.popupTeam1Name.textContent = gameState.teamNames.team1;
     elements.popupTeam2Name.textContent = gameState.teamNames.team2;
     elements.popupAnswer.textContent = gameState.currentQuestionData.answer;
+    
+    // Show next question's category
+    const nextQuestion = questionBank.getRandomQuestion();
+    if (nextQuestion) {
+        elements.nextCategory.textContent = `Next Category: ${nextQuestion.category}`;
+        elements.nextCategory.style.display = 'block';
+        // Store the next question for later use
+        gameState.nextQuestionData = nextQuestion;
+    } else {
+        elements.nextCategory.style.display = 'none';
+    }
     
     // Clear custom point inputs
     elements.team1CustomPoints.value = '';
@@ -709,7 +722,57 @@ function nextQuestion() {
         }
         
         elements.activeBuzzer.className = 'active-buzzer-display';
-        loadNextQuestion();
+        
+        // Hide next category display
+        elements.nextCategory.style.display = 'none';
+        
+        // Use the stored next question if available
+        if (gameState.nextQuestionData) {
+            gameState.currentQuestionData = gameState.nextQuestionData;
+            gameState.nextQuestionData = null;
+            elements.questionCategory.textContent = gameState.currentQuestionData.category;
+            elements.questionText.textContent = gameState.currentQuestionData.question;
+            elements.answerText.style.display = 'none';
+            elements.answerText.textContent = gameState.currentQuestionData.answer;
+            
+            // Handle media if present
+            const existingMedia = elements.questionDisplay.querySelector('.question-media');
+            if (existingMedia) {
+                existingMedia.remove();
+            }
+            
+            if (gameState.currentQuestionData.mediaType) {
+                const mediaContainer = document.createElement('div');
+                mediaContainer.className = 'question-media';
+                
+                if (gameState.currentQuestionData.mediaType === 'image') {
+                    const img = document.createElement('img');
+                    img.src = gameState.currentQuestionData.mediaSource;
+                    img.alt = 'Question Image';
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '300px';
+                    img.style.borderRadius = '8px';
+                    img.style.marginTop = '1rem';
+                    mediaContainer.appendChild(img);
+                } 
+                else if (gameState.currentQuestionData.mediaType === 'audio') {
+                    const audio = document.createElement('audio');
+                    audio.src = gameState.currentQuestionData.mediaSource;
+                    audio.controls = true;
+                    audio.style.width = '100%';
+                    audio.style.marginTop = '1rem';
+                    mediaContainer.appendChild(audio);
+                    
+                    gameState.currentAudio = audio;
+                    audio.play().catch(error => console.log('Error playing audio:', error));
+                }
+                
+                elements.questionText.insertAdjacentElement('afterend', mediaContainer);
+            }
+        } else {
+            loadNextQuestion();
+        }
+        
         enableBuzzers();
         updateUI();
     } else {

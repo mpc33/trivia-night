@@ -1,162 +1,179 @@
 const questionBank = {
     questions: [
-       {
-            category: "Geography",
-            question: "What is the capital city of Canada?",
-            answer: "Ottawa"
+        {
+          "category": "Sports",
+          "question": "In baseball scoring, what number is assigned to the shortstop position?",
+          "answer": "6"
         },
         {
-            category: "Pop Culture & TV Shows",
-            question: "In The Office (US), what is the name of Dwight Schrute’s beet farm?",
-            answer: "Schrute Farms"
+          "category": "Geography",
+          "question": "Name the only two land‑locked countries in South America.",
+          "answer": "Bolivia and Paraguay"
         },
         {
-            category: "Music",
-            question: "Who is the artist of this song?",
-            answer: "Kanye West",
-            mediaType: "audio",
-            mediaSource: "sounds/heartless.mp3"
+          "category": "Math",
+          "question": "You buy 3 churros that cost $2 each and pay with a $10 bill. How much change should you get back?",
+          "answer": "$4"
         },
         {
-            category: "History & Science",
-            question: "What space company was founded by Jeff Bezos?",
-            answer: "Blue Origin"
+          "category": "Science",
+          "question": "What natural phenomenon is measured on the Richter scale?",
+          "answer": "Earthquake magnitude"
         },
         {
-            category: "Pop Culture & TV Shows",
-            question: "Which TV series features a character named Homelander as the leader of a corrupt superhero team?",
-            answer: "The Boys",
-            mediaType: "image",
-            mediaSource: "images/homelander.png"
+            "category": "Hunter",
+            "question": "What high school superlative did Hunter Win?",
+            "answer": "Best to bring home to parents"
         },
         {
-            category: "Literature & Art",
-            question: "Who wrote the novel 1984?",
-            answer: "George Orwell"
+          "category": "Literature & Art",
+          "question": "Which Italian artist is credited with painting The Last Supper?",
+          "answer": "Leonardo da Vinci"
         },
         {
-            category: "Sports",
-            question: "Which country won the first-ever FIFA Women’s World Cup in 1991?",
-            answer: "United States"
+            "category": "Hunter ",
+            "question": "Which famous boat sank on Hunter’s Birthday?",
+            "answer": "Titanic"
         },
         {
-            category: "History & Science",
-            question: "Who developed the theory of relativity?",
-            answer: "Albert Einstein"
+          "category": "Music",
+          "question": "Which City is home to the famous country‑music venue the Grand Ole Opry?",
+          "answer": "Nashville, Tennessee"
         },
         {
-            category: "Geography",
-            question: "Which U.S. state is nicknamed The Last Frontier?",
-            answer: "Alaska"
+          "category": "Science",
+          "question": "Plants absorb which gas from the atmosphere during photosynthesis?",
+          "answer": "Carbon dioxide"
         },
         {
-            category: "Pop Culture & TV Shows",
-            question: "Which TV series features a character named Eleven with psychokinetic abilities?",
-            answer: "Stranger Things"
+          "category": "Geography",
+          "question": "How many continents are there on Earth?",
+          "answer": "7"
         },
         {
-            category: "Literature & Art",
-            question: "Which artist is known for *The Persistence of Memory* (melting clocks)?",
-            answer: "Salvador Dalí"
+          "category": "Cars",
+          "question": "What is the part of the car that charges the battery while the engine is running?",
+          "answer": "Alternator"
         },
         {
-            category: "Music",
-            question: "Name this classic rock song by Queen.",
-            answer: "Bohemian Rhapsody",
-            mediaType: "audio",
-            mediaSource: "sounds/bohemian-rhapsody.mp3"
+            "category": "Hunter",
+            "question": "Where did Hunter go on his first plane ride?",
+            "answer": "Nicaragua"
         },
         {
-            category: "History & Science",
-            question: "Which war is known as the War to End All Wars?",
-            answer: "World War I"
+            "category": "Hunter",
+            "question": "What Hospital was Hunter born in?",
+            "answer": "Holy Cross Hospital"
         },
         {
-            category: "Math",
-            question: "Solve for x: 3x - 7 = 8",
-            answer: "x = 5"
+            "category": "Pop Culture",
+            "question": "In 2024, which Puerto‑Rican–born artist became the first Latin act to headline the Super Bowl halftime show solo?",
+            "answer": "Bad Bunny"
+          },
+
+        {
+          "category": "Fashion",
+          "question": "What luxury brand logo features two interlocking C's",
+          "answer": "Chanel"
         },
         {
-            category: "Sports",
-            question: "Which sport uses terms like birdie, eagle, and albatross?",
-            answer: "Golf"
+          "category": "Literature & Art",
+          "question": "Who wrote the Harry Potter book series?",
+          "answer": "J. K. Rowling"
         },
         {
-            category: "Literature & Art",
-            question: "What is the name of the fictional town where Shakespeares Romeo and Juliet is set?",
-            answer: "Verona"
+          "category": "Math",
+          "question": "Solve for x in the equation 2x − 7 = 9",
+          "answer": "x = 8"
         },
         {
-            category: "Geography",
-            question: "What is the name of the strait that separates Europe and Africa?",
-            answer: "Strait of Gibraltar"
+            "category": "Hunter ",
+            "question": "The First African American to play a MLB game was? (this game occured on Hunter’s birthday)",
+            "answer": "Jackie Robinson"
         },
         {
-            category: "Sports",
-            question: "In cricket, what term describes a bowler taking three wickets in consecutive deliveries?",
-            answer: "Hat-Trick"
+          "category": "Music",
+          "question": "Name the Artist and the Song",
+          "answer": "50 cent: in da club",
+          "mediaType": "audio",
+          "mediaSource": "sounds/50-cent.mp3"
         },
         {
-            category: "History & Science",
-            question: "What is the chemical symbol for gold?",
-            answer: "Au"
+          "category": "Movies & TV",
+          "question": "Which Marvel superhero wields a hammer engraved with the word ‘Mjölnir’.",
+          "answer": "Thor"
         },
         {
-            category: "Literature & Art",
-            question: "Who wrote the epic poem The Odyssey?",
-            answer: "Homer"
+          "category": "Science",
+          "question": "Which chamber of the human heart pumps oxygen‑rich blood to the body?",
+          "answer": "Left ventricle"
         },
         {
-            category: "Math",
-            question: "What is the area of a square with 4cm sides?",
-            answer: "16cm²"
+          "category": "Geography",
+          "question": "its nickname is the boot and it has a volcano named Vesuvius. What country is it?",
+          "answer": "Italy",
+          "mediaType": "image",
+          "mediaSource": "images/silouette.png"
         },
         {
-            category: "History & Science",
-            question: "Which scientist proposed the three laws of motion?",
-            answer: "Isaac Newton"
+          "category": "History",
+          "question": "The assassination of Archduke Franz Ferdinand in 1914 triggered which global conflict?",
+          "answer": "World War I"
         },
         {
-            category: "Geography",
-            question: "Which country is known as the Land of the Rising Sun?",
-            answer: "Japan"
+          "category": "Sports",
+          "question": "In American football, how many points is a touchdown worth before any extra‑point or 2‑point attempt?",
+          "answer": "6 points"
         },
         {
-            category: "Pop Culture & TV Shows",
-            question: "What is the name of the fictional continent where Game of Thrones takes place?",
-            answer: "Westeros"
+            "category": "Hunter ",
+            "question": "What is Hunter’s middle name?",
+            "answer": "Lee Guy"
         },
         {
-            category: "Literature & Art",
-            question: "Who authored *Frankenstein* at age 18?",
-            answer: "Mary Shelley"
+          "category": "Cars",
+          "question": "What is the Make and Model?",
+          "answer": "Jeep Wrangler ",
+          "mediaType": "image",
+          "mediaSource": "images/guess-that-car.png"
         },
         {
-            category: "History & Science",
-            question: "What is the name of the first satellite launched into space?",
-            answer: "Sputnik 1"
+          "category": "Science",
+          "question": "Which vital sign is measured with a sphygmomanometer?",
+          "answer": "Blood pressure"
         },
         {
-            category: "Math",
-            question: "What is the square root of 144?",
-            answer: "12"
+          "category": "music",
+          "question": "Luis Fonsi and Daddy Yankee’s 2017 megahit spent a record 16 weeks at #1 on Billboard’s Hot 100. Name the song.",
+          "answer": "Despacito"
         },
         {
-            category: "Sports",
-            question: "Which country won the FIFA World Cup in 2018?",
-            answer: "France"
+          "category": "Sports",
+          "question": "In basketball, how many points is a single free‑throw worth?",
+          "answer": "1 point"
         },
         {
-            category: "Food & Drink",
-            question: "What is the national dish of Spain?",
-            answer: "Paella"
+            "category": "Hunter ",
+            "question": "Which president was assassinated on Hunters birthday?",
+            "answer": "Abraham Lincoln"
         },
         {
-            category: "Movies",
-            question: "Which director is known for films like *Inception* and *The Dark Knight Trilogy*?",
-            answer: "Christopher Nolan"
+          "category": "Geography",
+          "question": "Latitude challenge: The cities of Miami, Florida and Cairo, Egypt are roughly on the same line of latitude. True or False?",
+          "answer": "True (both ≈ 26° N)"
+        },
+        {
+            "category": "Hunter",
+            "question": "What are the names of Hunter's niece and nephew?",
+            "answer": "Parker and Avery"
+        },
+        {
+            "category": "Food",
+            "question": "What fruit is known for having its seeds on the outside rather than the inside?",
+            "answer": "Strawberries"
         }
-    ],
+ 
+      ],
     
     currentIndex: -1,
     
