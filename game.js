@@ -1,8 +1,12 @@
 // Game State
 const gameState = {
+    // One Minute Timer state
+    oneMinuteTimerInterval: null,
+    oneMinuteTimeRemaining: 60,
+    oneMinuteTimerRunning: false,
     currentRound: '1v1',
     currentQuestion: 1,
-    totalQuestions: 33,
+    totalQuestions: 30,
     scores: {
         team1: 0,
         team2: 0
@@ -27,7 +31,6 @@ const gameState = {
     },
     timerAttempts: 0,  // Track how many times timer has run
     initialTeam: null,  // Track which team buzzed first
-    timesUpSound: new Audio('sounds/timesupsound.mp3'),  // Add sound to game state
     timerPaused: false,  // Track if timer is paused
     savedTimeRemaining: 0,  // Store time when paused
     currentAudio: null,  // Track current audio element
@@ -36,6 +39,14 @@ const gameState = {
 
 // DOM Elements
 const elements = {
+    // One Minute Timer elements
+    timerToggle: document.getElementById('timerToggle'),
+    timerPanel: document.getElementById('timerPanel'),
+    oneMinuteTimer: document.getElementById('oneMinuteTimer'),
+    oneMinuteTimerDisplay: document.querySelector('#oneMinuteTimer .time'),
+    startOneMinuteTimer: document.getElementById('startOneMinuteTimer'),
+    pauseOneMinuteTimer: document.getElementById('pauseOneMinuteTimer'),
+    resetOneMinuteTimer: document.getElementById('resetOneMinuteTimer'),
     splashScreen: document.getElementById('splashScreen'),
     gameScreen: document.getElementById('gameScreen'),
     team1Buzzer: document.getElementById('team1Buzzer'),
@@ -150,6 +161,26 @@ function initializeGame() {
             updatePointsHistory();
         });
     }
+    
+    // Add one minute timer toggle listener
+    if (elements.timerToggle) {
+        elements.timerToggle.addEventListener('click', () => {
+            togglePanel('timer');
+        });
+    }
+    
+    // Add one minute timer control listeners
+    if (elements.startOneMinuteTimer) {
+        elements.startOneMinuteTimer.addEventListener('click', startOneMinuteTimer);
+    }
+    
+    if (elements.pauseOneMinuteTimer) {
+        elements.pauseOneMinuteTimer.addEventListener('click', pauseOneMinuteTimer);
+    }
+    
+    if (elements.resetOneMinuteTimer) {
+        elements.resetOneMinuteTimer.addEventListener('click', resetOneMinuteTimer);
+    }
 }
 
 // Handle Keyboard Controls
@@ -223,7 +254,36 @@ function loadNextQuestion() {
 
     gameState.currentQuestionData = questionBank.getRandomQuestion();
     elements.questionCategory.textContent = gameState.currentQuestionData.category;
-    elements.questionText.textContent = gameState.currentQuestionData.question;
+    
+    // Format multiple choice questions with options on separate lines
+    if (gameState.currentQuestionData.question.includes("\nA)")) {
+        // Question already has line breaks for options
+        elements.questionText.textContent = gameState.currentQuestionData.question;
+    } else if (gameState.currentQuestionData.question.includes("A)") &&
+               gameState.currentQuestionData.question.includes("B)")) {
+        // Multiple choice question without line breaks - add them
+        let question = gameState.currentQuestionData.question;
+        
+        // Find the position of the first option
+        const optionAPos = question.indexOf("A)");
+        
+        // Split the question text from the options
+        const questionText = question.substring(0, optionAPos);
+        const optionsText = question.substring(optionAPos);
+        
+        // Replace single options with options that have line breaks
+        const formattedOptions = optionsText
+            .replace(/A\)/g, "\nA)")
+            .replace(/B\)/g, "\n\nB)")
+            .replace(/C\)/g, "\n\nC)")
+            .replace(/D\)/g, "\n\nD)");
+        
+        // Combine the question text with the formatted options
+        elements.questionText.textContent = questionText + formattedOptions;
+    } else {
+        // Regular question without options
+        elements.questionText.textContent = gameState.currentQuestionData.question;
+    }
     elements.answerText.style.display = 'none';
     elements.answerText.textContent = gameState.currentQuestionData.answer;
 
@@ -419,19 +479,95 @@ window.toggleQuestion = toggleQuestion;
 function togglePanel(type) {
     const settingsPanel = document.getElementById('settingsPanel');
     const historyPanel = document.getElementById('historyPanel');
+    const timerPanel = document.getElementById('timerPanel');
     
     if (type === 'settings') {
         settingsPanel.classList.toggle('visible');
         historyPanel.classList.remove('visible');
+        timerPanel.classList.remove('visible');
     } else if (type === 'history') {
         historyPanel.classList.toggle('visible');
         settingsPanel.classList.remove('visible');
+        timerPanel.classList.remove('visible');
+    } else if (type === 'timer') {
+        timerPanel.classList.toggle('visible');
+        settingsPanel.classList.remove('visible');
+        historyPanel.classList.remove('visible');
     }
 }
 
 // Make toggle functions available globally
 window.toggleSettings = () => togglePanel('settings');
 window.toggleHistory = () => togglePanel('history');
+window.toggleOneMinuteTimer = () => togglePanel('timer');
+
+// One Minute Timer Functions
+function startOneMinuteTimer() {
+    if (gameState.oneMinuteTimerRunning) return;
+    
+    gameState.oneMinuteTimerRunning = true;
+    elements.startOneMinuteTimer.disabled = true;
+    elements.pauseOneMinuteTimer.disabled = false;
+    elements.resetOneMinuteTimer.disabled = false;
+    
+    gameState.oneMinuteTimerInterval = setInterval(() => {
+        gameState.oneMinuteTimeRemaining--;
+        updateOneMinuteTimerDisplay();
+        
+        if (gameState.oneMinuteTimeRemaining <= 0) {
+            clearInterval(gameState.oneMinuteTimerInterval);
+            gameState.oneMinuteTimerRunning = false;
+            elements.startOneMinuteTimer.disabled = true;
+            elements.pauseOneMinuteTimer.disabled = true;
+            
+            // Flash the timer when it reaches zero
+            flashOneMinuteTimer();
+        }
+    }, 1000);
+}
+
+function pauseOneMinuteTimer() {
+    if (!gameState.oneMinuteTimerRunning) return;
+    
+    clearInterval(gameState.oneMinuteTimerInterval);
+    gameState.oneMinuteTimerRunning = false;
+    elements.startOneMinuteTimer.disabled = false;
+    elements.pauseOneMinuteTimer.disabled = true;
+}
+
+function resetOneMinuteTimer() {
+    clearInterval(gameState.oneMinuteTimerInterval);
+    gameState.oneMinuteTimerRunning = false;
+    gameState.oneMinuteTimeRemaining = 60;
+    
+    elements.startOneMinuteTimer.disabled = false;
+    elements.pauseOneMinuteTimer.disabled = true;
+    elements.resetOneMinuteTimer.disabled = true;
+    
+    updateOneMinuteTimerDisplay();
+    
+    // Remove any flashing effect
+    elements.oneMinuteTimer.style.animation = 'none';
+    elements.oneMinuteTimerDisplay.style.color = 'var(--secondary-color)';
+}
+
+function updateOneMinuteTimerDisplay() {
+    elements.oneMinuteTimerDisplay.textContent = gameState.oneMinuteTimeRemaining;
+    
+    // Change color based on time remaining
+    if (gameState.oneMinuteTimeRemaining <= 10) {
+        elements.oneMinuteTimerDisplay.style.color = 'var(--team-coral)';
+    } else if (gameState.oneMinuteTimeRemaining <= 30) {
+        elements.oneMinuteTimerDisplay.style.color = 'var(--team-purple)';
+    } else {
+        elements.oneMinuteTimerDisplay.style.color = 'var(--secondary-color)';
+    }
+}
+
+function flashOneMinuteTimer() {
+    elements.oneMinuteTimer.style.animation = 'pulse 0.5s infinite alternate';
+    elements.oneMinuteTimerDisplay.style.color = 'var(--team-coral)';
+}
 
 // Update Settings Panel
 function updateSettingsPanel() {
@@ -592,12 +728,11 @@ function handleTimeUp() {
         elements.activeBuzzer.textContent = teamName;
         elements.activeBuzzer.className = `active-buzzer-display ${color} visible`;
         
-        // Restart timer
-        const seconds = gameState.currentRound === '1v1' ? 5 : 30;
+        // Restart timer - always give 30 seconds for the opposing team
+        const seconds = 30;
         startTimer(seconds);
     } else if (gameState.timerAttempts === 2) {
-        // Play times up sound
-        gameState.timesUpSound.play().catch(error => console.log('Error playing sound:', error));
+        // Times up sound removed
         
         // Second attempt finished - reset everything
         gameState.timerAttempts = 0;
@@ -731,7 +866,36 @@ function nextQuestion() {
             gameState.currentQuestionData = gameState.nextQuestionData;
             gameState.nextQuestionData = null;
             elements.questionCategory.textContent = gameState.currentQuestionData.category;
-            elements.questionText.textContent = gameState.currentQuestionData.question;
+            
+            // Format multiple choice questions with options on separate lines
+            if (gameState.currentQuestionData.question.includes("\nA)")) {
+                // Question already has line breaks for options
+                elements.questionText.textContent = gameState.currentQuestionData.question;
+            } else if (gameState.currentQuestionData.question.includes("A)") &&
+                      gameState.currentQuestionData.question.includes("B)")) {
+                // Multiple choice question without line breaks - add them
+                let question = gameState.currentQuestionData.question;
+                
+                // Find the position of the first option
+                const optionAPos = question.indexOf("A)");
+                
+                // Split the question text from the options
+                const questionText = question.substring(0, optionAPos);
+                const optionsText = question.substring(optionAPos);
+                
+                // Replace single options with options that have line breaks
+                const formattedOptions = optionsText
+                    .replace(/A\)/g, "\nA)")
+                    .replace(/B\)/g, "\n\nB)")
+                    .replace(/C\)/g, "\n\nC)")
+                    .replace(/D\)/g, "\n\nD)");
+                
+                // Combine the question text with the formatted options
+                elements.questionText.textContent = questionText + formattedOptions;
+            } else {
+                // Regular question without options
+                elements.questionText.textContent = gameState.currentQuestionData.question;
+            }
             elements.answerText.style.display = 'none';
             elements.answerText.textContent = gameState.currentQuestionData.answer;
             
